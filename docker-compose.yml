@@ -1,0 +1,21 @@
+version: '3.4'
+services:
+  app:
+    build: .
+    container_name: drf_app
+    ports:
+      - 8000:8000
+    environment:
+      DATABASE_URL: postgres://${DB_USER}:${DB_PASS}@db:5432/${DB_NAME}
+  db:
+    image: postgres:10
+    container_name: drf_db
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+    volumes:
+      - "drf-pgdata:/var/lib/postgresql/data"
+
+volumes:
+  drf-pgdata:

@@ -1,0 +1,3 @@
+# brings in django and djangorestframework
+dynamic-rest>=1.8
+dj-database-url>=0.5.0
