@@ -28,6 +28,12 @@ To get started from a fresh clone:
 ## Run with docker
 Make sure you have `docker` and `docker-compose` installed first.
 
+We've split the docker stack into two: the app and all the infrastructure to run the app. This affords us more
+flexibility as we can either run the whole stack, or just run the infrastructure and run our app locally during dev. The
+downside of doing this is that we have to explicitly name our docker-compose file in our commands. It's worth it though.
+
+To run the whole stack:
+
   1. make sure you're in the root of this repo
   1. start the stack
       ```bash
@@ -48,3 +54,36 @@ Make sure you have `docker` and `docker-compose` installed first.
       docker-compose down            # leaves DB data volume existing
       docker-compose down --volumes  # destroys the DB data volume
       ```
+
+
+If you only want to run the infrastructure, so you can run the app on your machine, you can do so by specifying the
+docker-compose files to use. Our app is defined in a separate file so by excluding the `docker-compose.override.yml`
+file -- that is automatically looked for and contains our app definition -- and including a separate override file, we
+run just the bits we want and have them accessible.
+
+  1. start just the infrastructure of the stack (everything but the app)
+      ```bash
+      docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+      ```
+  1. look in the `docker-compose.override.yml` file to see what environment variables the app expects. You may want to
+     set some of these before starting the app so it points to the docker stack components. You can see the ports that
+     we expose on the stack in the `docker-compose.dev.yml` file. For example
+      ```bash
+      export DATABASE_URL=postgres://user:password@localhost:5432/drf_db
+      ```
+  1. remember to migrate the DB if you haven't already
+      ```bash
+      python manage.py migrate
+      ```
+  1. to stop the stack
+      ```bash
+      docker-compose -f docker-compose.yml -f docker-compose.dev.yml down -d
+      # or
+      docker-compose -f docker-compose.yml -f docker-compose.dev.yml down -d --volumes
+      ```
+
+## To document:
+
+  1. health checks (`/ht/` endpoint)
+  1. API keys
+  1. S3 integration

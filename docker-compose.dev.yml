@@ -1,0 +1,11 @@
+# overrides so we can expose ports when running just the backend of the stack and the app on the host. They belong in
+# this file so we don't expose these ports during a prod deployment.
+version: '3.4'
+services:
+  db:
+    ports:
+      - '5432:5432'
+
+  minio:
+    ports:
+      - '9000:9000'
