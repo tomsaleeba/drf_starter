@@ -13,6 +13,8 @@ class User(models.Model):
         related_name='users',
         blank=True,
     )
+    uploaded_at = models.DateTimeField(auto_now_add=True, null=True)
+    upload = models.FileField(null=True)
 
     def __str__(self):
         return self.name
