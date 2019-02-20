@@ -70,6 +70,10 @@ run just the bits we want and have them accessible.
      we expose on the stack in the `docker-compose.dev.yml` file. For example
       ```bash
       export DATABASE_URL=postgres://user:password@localhost:5432/drf_db
+      export AWS_ACCESS_KEY_ID=somekey
+      export AWS_SECRET_ACCESS_KEY=somekey
+      export S3_BUCKET=some-bucket
+      export AWS_S3_ENDPOINT_URL=http://localhost:9000  # using minio
       ```
   1. remember to migrate the DB if you haven't already
       ```bash

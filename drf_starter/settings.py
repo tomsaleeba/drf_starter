@@ -135,15 +135,16 @@ REST_FRAMEWORK = {
     ],
 }
 
+DEFAULT_FILE_STORAGE = 'drf_starter.storage_backends.MediaStorage'
+AWS_DEFAULT_ACL = None
+# FIXME assert all values are specified
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME', default='ap-southeast-2')
 AWS_STORAGE_BUCKET_NAME = os.getenv('S3_BUCKET')
+AWS_S3_ENDPOINT_URL = os.getenv('AWS_S3_ENDPOINT_URL', default=None)
 AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',
 }
 AWS_AUTO_CREATE_BUCKET = True
-AWS_S3_ENDPOINT_URL = os.getenv('AWS_S3_USE_SSL', default=None)
-DEFAULT_FILES_STORAGE = 'drf_starter.storage_backends.MediaStorage'
-# AWS_DEFAULT_ACL = None # TODO do we need this to serve direct from the bucket?
 

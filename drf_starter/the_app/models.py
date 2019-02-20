@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class User(models.Model):
     name = models.TextField()
     location = models.ForeignKey(
@@ -13,8 +14,8 @@ class User(models.Model):
         related_name='users',
         blank=True,
     )
-    uploaded_at = models.DateTimeField(auto_now_add=True, null=True)
-    upload = models.FileField(null=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+    data = models.ImageField(null=True) # TODO can it handle RAW/CR2 images?
 
     def __str__(self):
         return self.name

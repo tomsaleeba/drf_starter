@@ -1,5 +1,6 @@
 from dynamic_rest import fields
 from dynamic_rest import serializers
+from drf_extra_fields.fields import HybridImageField
 
 from drf_starter.the_app import models
 
@@ -7,10 +8,12 @@ class UserSerializer(serializers.DynamicModelSerializer):
     class Meta:
         model = models.User
         name = 'user'
-        fields = ('id', 'name', 'location', 'groups', 'upload', 'uploaded_at')
+        fields = ('id', 'name', 'location', 'groups', 'data', 'uploaded_at')
+        read_only_fields = ('uploaded_at',)
 
     location = fields.DynamicRelationField('LocationSerializer', embed=True)
     groups = fields.DynamicRelationField('GroupSerializer', many=True, deferred=True, embed=True)
+    data = HybridImageField(required=False)
 
 
 class GroupSerializer(serializers.DynamicModelSerializer):
