@@ -63,27 +63,19 @@ run just the bits we want and have them accessible.
 
   1. start just the infrastructure of the stack (everything but the app)
       ```bash
-      docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+      ./dev-stack.sh
       ```
-  1. look in the `docker-compose.override.yml` file to see what environment variables the app expects. You may want to
-     set some of these before starting the app so it points to the docker stack components. You can see the ports that
-     we expose on the stack in the `docker-compose.dev.yml` file. For example
-      ```bash
-      export DATABASE_URL=postgres://user:password@localhost:5432/drf_db
-      export AWS_ACCESS_KEY_ID=somekey
-      export AWS_SECRET_ACCESS_KEY=somekey
-      export S3_BUCKET=some-bucket
-      export AWS_S3_ENDPOINT_URL=http://localhost:9000  # using minio
-      ```
+  1. the output of the previous command will show you the environment variables you should define so your local dev
+     instance of the app works as expected
   1. remember to migrate the DB if you haven't already
       ```bash
       python manage.py migrate
       ```
   1. to stop the stack
       ```bash
-      docker-compose -f docker-compose.yml -f docker-compose.dev.yml down -d
-      # or
-      docker-compose -f docker-compose.yml -f docker-compose.dev.yml down -d --volumes
+      ./dev-stack.sh down
+      # or, to delete all the data too
+      ./dev-stack.sh down --volumes
       ```
 
 ## To document:
@@ -91,3 +83,5 @@ run just the bits we want and have them accessible.
   1. health checks (`/ht/` endpoint)
   1. API keys
   1. S3 integration
+  1. schema endpoint
+  1. coreapi docs

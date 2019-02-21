@@ -1,8 +1,14 @@
+from uuid import uuid1
 from django.db import models
 
 
+def get_uuid(instance, filename):
+    return str(uuid1())
+
+
 class User(models.Model):
-    name = models.TextField()
+    first_name = models.TextField()
+    surname = models.TextField()
     location = models.ForeignKey(
         'Location',
         null=True,
@@ -15,7 +21,7 @@ class User(models.Model):
         blank=True,
     )
     uploaded_at = models.DateTimeField(auto_now_add=True)
-    data = models.ImageField(null=True) # TODO can it handle RAW/CR2 images?
+    data = models.ImageField(upload_to=get_uuid, null=True)
 
     def __str__(self):
         return self.name

@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'storages',
     'health_check',
     'health_check.db',
-    'health_check.contrib.s3boto_storage',
+    'health_check.contrib.s3boto3_storage',
     'drf_starter.the_app',
 ]
 
@@ -133,6 +133,8 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
         'dynamic_rest.renderers.DynamicBrowsableAPIRenderer',
     ],
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.AcceptHeaderVersioning',
+    # DEFAULT_VERSION is set per model
 }
 
 DEFAULT_FILE_STORAGE = 'drf_starter.storage_backends.MediaStorage'
@@ -141,7 +143,7 @@ AWS_DEFAULT_ACL = None
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME', default='ap-southeast-2')
-AWS_STORAGE_BUCKET_NAME = os.getenv('S3_BUCKET')
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_S3_BUCKET')
 AWS_S3_ENDPOINT_URL = os.getenv('AWS_S3_ENDPOINT_URL', default=None)
 AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',
