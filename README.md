@@ -83,5 +83,7 @@ run just the bits we want and have them accessible.
   1. health checks (`/ht/` endpoint)
   1. API keys
   1. S3 integration
-  1. schema endpoint
-  1. coreapi docs
+  1. schema endpoint (`/schema/`)
+  1. coreapi docs (no support for old versions)
+  1. versioning
+  1. fixtures
