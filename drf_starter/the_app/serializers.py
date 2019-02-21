@@ -57,16 +57,6 @@ class UserV2Serializer(UserBaseSerializer):
     surname = UserSurnameField()
 
 
-class GroupSerializer(serializers.DynamicModelSerializer):
-    class Meta:
-        model = Group
-        name = 'group'
-        fields = ('id', 'name', 'location', 'users')
-
-    location = fields.DynamicRelationField('LocationSerializer', embed=True)
-    users = fields.DynamicRelationField('UserSerializer', many=True, deferred=True, embed=True)
-
-
 class LocationSerializer(serializers.DynamicModelSerializer):
     class Meta:
         defer_many_relations = False
@@ -77,11 +67,26 @@ class LocationSerializer(serializers.DynamicModelSerializer):
         )
 
     users = serializers.DynamicRelationField(
-        'UserSerializer',
+        UserV2Serializer, # ideally we would have two versions of Location to match User
         source='user_set',
         many=True,
         deferred=True,
         embed=True,
     )
     user_count = fields.CountField('users', required=False, deferred=True)
+
+
+class GroupSerializer(serializers.DynamicModelSerializer):
+    class Meta:
+        model = Group
+        name = 'group'
+        fields = ('id', 'name', 'location', 'users')
+
+    location = fields.DynamicRelationField(LocationSerializer, embed=True)
+    users = fields.DynamicRelationField(
+        UserV2Serializer, # ideally we would have two versions of Group to match User
+        many=True,
+        deferred=True,
+        embed=True,
+    )
 
