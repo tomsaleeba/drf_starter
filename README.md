@@ -78,10 +78,31 @@ run just the bits we want and have them accessible.
       ./dev-stack.sh down --volumes
       ```
 
+## API Keys
+By default, this API is public read-only and requires a token to write. To get yourself a token:
+
+  1. create a user
+      ```bash
+      username=tom
+      python manage.py createsuperuser --username $username --email $username@local
+      ```
+  1. generate a token for the user. Note: running this again will return the existing key.
+      ```bash
+      python manage.py drf_create_token $username
+      ```
+  1. use the token in a call (we're using [httpie](https://httpie.org/))
+      ```bash
+      http :8000/locations/ name=firstloc Authorization:'Bearer 8cb15bb2468ba29922b07cdd935c623b3c709a76' 
+      ```
+  1. to regenerate a key for a user, add the `-r` flag
+      ```bash
+      python manage.py drf_create_token -r $username
+      ```
+  1. you can also generate tokens via the `/admin/` page in your browser
+
 ## To document:
 
   1. health checks (`/ht/` endpoint)
-  1. API keys
   1. S3 integration
   1. schema endpoint (`/schema/`)
   1. coreapi docs (no support for old versions)

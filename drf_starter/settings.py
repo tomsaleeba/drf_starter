@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'dynamic_rest',
     'storages',
     'health_check',
@@ -135,6 +136,12 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.AcceptHeaderVersioning',
     # DEFAULT_VERSION is set per model
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'drf_starter.auth.CustomTokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ),
 }
 
 DEFAULT_FILE_STORAGE = 'drf_starter.storage_backends.MediaStorage'
