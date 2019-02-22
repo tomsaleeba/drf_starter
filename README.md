@@ -104,7 +104,7 @@ By default, this API is public read-only and requires a token to write. To get y
 
   1. health checks (`/ht/` endpoint)
   1. S3 integration
-  1. schema endpoint (`/schema/`)
+  1. schema endpoint (`/schema/` or `OPTIONS` on any list endpoint)
   1. coreapi docs (no support for old versions)
   1. versioning
   1. fixtures

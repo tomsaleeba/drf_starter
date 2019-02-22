@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 import dj_database_url
+from drf_starter import utils
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -137,7 +138,8 @@ REST_FRAMEWORK = {
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.AcceptHeaderVersioning',
     # DEFAULT_VERSION is set per model
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'drf_starter.auth.CustomTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication', # for the API browser view
+        'drf_starter.auth.CustomTokenAuthentication',          # for machine clients
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
@@ -146,11 +148,10 @@ REST_FRAMEWORK = {
 
 DEFAULT_FILE_STORAGE = 'drf_starter.storage_backends.MediaStorage'
 AWS_DEFAULT_ACL = None
-# FIXME assert all values are specified
-AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_ACCESS_KEY_ID = utils.get_required_env('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = utils.get_required_env('AWS_SECRET_ACCESS_KEY')
 AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME', default='ap-southeast-2')
-AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_S3_BUCKET')
+AWS_STORAGE_BUCKET_NAME = utils.get_required_env('AWS_S3_BUCKET')
 AWS_S3_ENDPOINT_URL = os.getenv('AWS_S3_ENDPOINT_URL', default=None)
 AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',
