@@ -24,7 +24,7 @@ class User(models.Model):
     data = models.ImageField(upload_to=get_uuid, null=True)
 
     def __str__(self):
-        return self.name
+        return '%s %s' % (self.first_name, self.surname)
 
 
 class Group(models.Model):

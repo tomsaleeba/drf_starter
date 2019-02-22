@@ -108,3 +108,7 @@ By default, this API is public read-only and requires a token to write. To get y
   1. coreapi docs (no support for old versions)
   1. versioning
   1. fixtures
+
+## TODO
+
+  1. change requests for non existing fields `?include[]=blah` from 500 to 4xx response

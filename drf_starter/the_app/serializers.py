@@ -62,9 +62,7 @@ class LocationSerializer(serializers.DynamicModelSerializer):
         defer_many_relations = False
         model = Location
         name = 'location'
-        fields = (
-            'id', 'name', 'users', 'user_count',
-        )
+        fields = ('id', 'name', 'users')
 
     users = serializers.DynamicRelationField(
         UserV2Serializer, # ideally we would have two versions of Location to match User
@@ -73,7 +71,6 @@ class LocationSerializer(serializers.DynamicModelSerializer):
         deferred=True,
         embed=True,
     )
-    user_count = fields.CountField('users', required=False, deferred=True)
 
 
 class GroupSerializer(serializers.DynamicModelSerializer):
@@ -83,6 +80,13 @@ class GroupSerializer(serializers.DynamicModelSerializer):
         fields = ('id', 'name', 'location', 'users')
 
     location = fields.DynamicRelationField(LocationSerializer, embed=True)
+    # TODO this field may explode in the browsable API because the generated form sends null by default
+    # if we could get our field into
+    # https://github.com/encode/django-rest-framework/blob/master/rest_framework/renderers.py#L267 then we can control
+    # what it gets rendered like. Currently it's treated as just Field.
+    # This alternative presents nicely in the browsable API but doesn't have the nested capability:
+    #    users = rf_serializers.PrimaryKeyRelatedField(many=True, queryset=User.objects.all())
+    # Otherwise if this field can handle null, all will be well.
     users = fields.DynamicRelationField(
         UserV2Serializer, # ideally we would have two versions of Group to match User
         many=True,
