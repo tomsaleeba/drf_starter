@@ -100,6 +100,29 @@ By default, this API is public read-only and requires a token to write. To get y
       ```
   1. you can also generate tokens via the `/admin/` page in your browser
 
+
+## Loading sample data
+We have some sample data (a fixture) to make it easier to try this API, to load it:
+
+  1. if your stack is already running, we need to stop it and destroy any data
+      ```bash
+      docker-compose down --volumes  # for the full stack, or
+      ./dev-stack.sh down --volumes  # for the dev stack
+      ```
+  1. now start the stack again
+      ```bash
+      docker-compose up -d  # for the full stack, or
+      ./dev-stack.sh        # for the dev stack
+      ```
+  1. migrate the database
+      ```bash
+      ./manage.py migrate
+      ```
+  1. load the fixture
+      ```bash
+      ./manage.py loaddata drf_starter/the_app/test/the_app_test_fixtures.json 
+      ```
+
 ## To document:
 
   1. health checks (`/ht/` endpoint)
@@ -107,7 +130,6 @@ By default, this API is public read-only and requires a token to write. To get y
   1. schema endpoint (`/schema/` or `OPTIONS` on any list endpoint)
   1. coreapi docs (no support for old versions)
   1. versioning
-  1. fixtures
 
 ## TODO
 
